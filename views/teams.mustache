@@ -1,0 +1,51 @@
+<nav class="navbar navbar-toggleable-md navbar-dark bg-faded">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="/">Navbar</a>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-item" href="/teams/">View Teams</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-item" href="/ranks/">View Rankings</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-item" href="/logout/">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  <h2>Teams</h2>
+  <p>Simply click your team to claim them for youself. WARNING: ALL YOU HAVE TO DO IS CLICK THE TEAM. BE CAREFUL NOT TO PICK THE WRONG TEAM!</p>
+  {{#messages.error}}
+  <div class="alert alert-danger" role="alert">
+    {{.}}
+  </div>
+  {{/messages.error}}
+  <div class="team-container">
+    <ul class="list-group d-flex flex-wrap flex-row">
+      {{#teams}}
+      {{#User}}
+      <li href="/teams/{{id}}" class="list-group-item list-group-item-action">
+        {{teamName}}
+        <span class="badge badge-pill badge-primary user-badge p-1">{{name}}</span>
+      </li>
+      {{/User}}
+      {{^User}}
+      <a href="/teams/{{id}}" class="list-group-item list-group-item-action">
+        {{teamName}}
+        <span class="badge badge-pill badge-warning user-badge p-1">Not Claimed</span>
+        (Click Team to Claim)
+      </a>
+      {{/User}}
+      {{/teams}}
+      {{^teams}}
+      <p>No teams found.</p>
+      {{/teams}}
+    </ul>
+  </div>
+</div>

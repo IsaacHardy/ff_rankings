@@ -1,0 +1,164 @@
+<nav class="navbar navbar-toggleable-md navbar-dark bg-faded">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="/">Navbar</a>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-item" href="/teams/">View Teams</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-item" href="/ranks/">View Rankings</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-item" href="/logout/">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  {{#messages.error}}
+  <div class="alert alert-danger" role="alert">
+    {{.}}
+  </div>
+  {{/messages.error}}
+  <div id="rankings-layout">
+    <div class="">
+      {{#rankings}}
+        {{.}}
+      {{/rankings}}
+    </div>
+
+    <form class="rankings-form" action="/ranks/" method="post">
+      <div id="select-inputs" class="form-group">
+        <label for="1">1st</label>
+        <select id="1" class="form-control" name="1">
+          <option default>Select Team</option>
+          {{#teams}}
+          <option value="{{id}}">{{teamName}}</option>
+          {{/teams}}
+        </select>
+      </div>
+      <div id="select-inputs" class="form-group">
+        <label for="2">2nd</label>
+        <select id="2" class="form-control" name="2">
+          <option default>Select Team</option>
+          {{#teams}}
+          <option value="{{id}}">{{teamName}}</option>
+          {{/teams}}
+        </select>
+      </div>
+      <div id="select-inputs" class="form-group">
+        <label for="3">3rd</label>
+        <select id="3" class="form-control" name="3">
+          <option default>Select Team</option>
+          {{#teams}}
+          <option value="{{id}}">{{teamName}}</option>
+          {{/teams}}
+        </select>
+      </div>
+      <div id="select-inputs" class="form-group">
+        <label for="4">4th</label>
+        <select id="4" class="form-control" name="4">
+          <option default>Select Team</option>
+          {{#teams}}
+          <option value="{{id}}">{{teamName}}</option>
+          {{/teams}}
+        </select>
+      </div>
+      <div id="select-inputs" class="form-group">
+        <label for="5">5th</label>
+        <select id="5" class="form-control" name="5">
+          <option default>Select Team</option>
+          {{#teams}}
+          <option value="{{id}}">{{teamName}}</option>
+          {{/teams}}
+        </select>
+      </div>
+      <div id="select-inputs" class="form-group">
+        <label for="6">6th</label>
+        <select id="6" class="form-control" name="6">
+          <option default>Select Team</option>
+          {{#teams}}
+          <option value="{{id}}">{{teamName}}</option>
+          {{/teams}}
+        </select>
+      </div>
+      <div id="select-inputs" class="form-group">
+        <label for="7">7th</label>
+        <select id="7" class="form-control" name="7">
+          <option default>Select Team</option>
+          {{#teams}}
+          <option value="{{id}}">{{teamName}}</option>
+          {{/teams}}
+        </select>
+      </div>
+      <div id="select-inputs" class="form-group">
+        <label for="8">8th</label>
+        <select id="8" class="form-control" name="8">
+          <option default>Select Team</option>
+          {{#teams}}
+          <option value="{{id}}">{{teamName}}</option>
+          {{/teams}}
+        </select>
+      </div>
+      <div id="select-inputs" class="form-group">
+        <label for="9">9th</label>
+        <select id="9" class="form-control" name="9">
+          <option default>Select Team</option>
+          {{#teams}}
+          <option value="{{id}}">{{teamName}}</option>
+          {{/teams}}
+        </select>
+      </div>
+      <div id="select-inputs" class="form-group">
+        <label for="10">10th</label>
+        <select id="10" class="form-control" name="10">
+          <option default>Select Team</option>
+          {{#teams}}
+          <option value="{{id}}">{{teamName}}</option>
+          {{/teams}}
+        </select>
+      </div>
+      <div id="select-inputs" class="form-group">
+        <label for="11">11th</label>
+        <select id="11" class="form-control" name="11">
+          <option default>Select Team</option>
+          {{#teams}}
+          <option value="{{id}}">{{teamName}}</option>
+          {{/teams}}
+        </select>
+      </div>
+      <div id="select-inputs" class="form-group">
+        <label for="12">12th</label>
+        <select id="12" class="form-control" name="12">
+          <option default>Select Team</option>
+          {{#teams}}
+          <option value="{{id}}">{{teamName}}</option>
+          {{/teams}}
+        </select>
+      </div>
+      <div id="select-inputs" class="form-group">
+        <label for="13">13th</label>
+        <select id="13" class="form-control" name="13">
+          <option default>Select Team</option>
+          {{#teams}}
+          <option value="{{id}}">{{teamName}}</option>
+          {{/teams}}
+        </select>
+      </div>
+      <div id="select-inputs" class="form-group">
+        <label for="14">14th</label>
+        <select id="14" class="form-control" name="14">
+          <option default>Select Team</option>
+          {{#teams}}
+          <option value="{{id}}">{{teamName}}</option>
+          {{/teams}}
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary">Submit Your Rankings!</button>
+    </form>
+  </div>
+</div>

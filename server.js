@@ -6,7 +6,9 @@ const express         = require("express"),
       bcrypt          = require("bcryptjs"),
       User            = require("./models").User,
       LocalStrategy   = require('passport-local').Strategy,
-      routes          = require("./routes/index.js");
+      routes          = require("./routes/index.js"),
+      rankings        = require("./routes/rankings.js"),
+      teams           = require("./routes/teams.js");
 
 // Initialze Express App
 const app = express();
@@ -66,7 +68,9 @@ passport.deserializeUser(function(id, done) {
 })
 
 // Import Routes
-app.use(routes);
+app.use("/", routes);
+app.use("/ranks/", rankings);
+app.use("/teams/", teams);
 
 if (require.main === module) {
   app.listen(app.get('port'), function() {
