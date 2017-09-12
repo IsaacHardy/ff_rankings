@@ -1,0 +1,31 @@
+{
+  "name": "rankings",
+  "version": "1.0.0",
+  "description": "A barebones Node.js app using [Express 4](http://expressjs.com/).",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "author": "",
+  "license": "ISC",
+  "engine": {
+    "node": "6.10.2"
+  },
+  "dependencies": {
+    "body-parser": "1.18.1",
+    "express": "4.15.4",
+    "express-session": "1.15.5",
+    "express-validator": "4.1.1",
+    "mustache": "2.3.0",
+    "mustache-express": "1.2.5",
+    "path": "0.12.7",
+    "pg": "7.3.0",
+    "sequelize": "4.8.3"
+  }
+}
