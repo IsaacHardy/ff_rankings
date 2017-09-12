@@ -2,14 +2,14 @@
   "development": {
     "username": "IsaacHardy",
     "password": null,
-    "database": "",
+    "database": "rankings_ff",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },
   "test": {
     "username": "IsaacHardy",
     "password": null,
-    "database": "",
+    "database": "test_rankings_ff",
     "host": "127.0.0.1",
     "dialect": "postgres"
   },

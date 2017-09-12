@@ -8,3 +8,10 @@
   background-color: teal;
   padding: 3vw;
 }
+
+#form-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: baseline;
+}

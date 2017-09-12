@@ -1,10 +1,12 @@
-const express         = require("express");
-const bodyParser      = require("body-parser");
-const validator       = require("express-validator");
-const mustacheExpress = require("mustache-express");
-const path            = require("path");
-const session         = require("express-session");
-const routes          = require("./routes/index.js");
+const express         = require("express"),
+      mustacheExpress = require("mustache-express"),
+      path            = require("path"),
+      morgan          = require("morgan"),
+      passport        = require("passport"),
+      bcrypt          = require("bcryptjs"),
+      User            = require("./models").User,
+      LocalStrategy   = require('passport-local').Strategy,
+      routes          = require("./routes/index.js");
 
 // Initialze Express App
 const app = express();
@@ -21,21 +23,55 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "mustache");
 app.set("layout", "layout");
 
-// Body parser and validator implementation
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(validator());
+app.use(morgan('dev'));
 
-// Initialize Express Session
-app.use(session({
-  secret: 'thesecret',
-  resave: false,
-  saveUninitialized: false
-}));
+const authenticateUser = function(username, password, done) {
+  User.findOne({
+    where: {
+      'username': username.toLowerCase()
+    }
+  }).then(function (user) {
+    if (user == null) {
+      return done(null, false, { message: 'Invalid email and/or password: please try again' })
+    }
+
+    let hashedPassword = bcrypt.hashSync(password, user.salt)
+
+    if (user.password === hashedPassword) {
+      return done(null, user)
+    }
+
+    return done(null, false, { message: 'Invalid email and/or password: please try again' })
+  })
+}
+
+passport.use(new LocalStrategy(authenticateUser))
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id)
+})
+
+passport.deserializeUser(function(id, done) {
+  User.findOne({
+    where: {
+      'id': id
+    }
+  }).then(function (user) {
+    if (user == null) {
+      done(new Error('Wrong user id'))
+    }
+
+    done(null, user)
+  })
+})
 
 // Import Routes
 app.use(routes);
 
-app.listen(app.get('port'), function() {
-  console.log('Node app is running on port', app.get('port'));
-});
+if (require.main === module) {
+  app.listen(app.get('port'), function() {
+    console.log('Node app is running on port', app.get('port'));
+  });
+}
+
+module.exports = app;
