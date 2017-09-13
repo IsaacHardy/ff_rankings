@@ -7,10 +7,11 @@ const express = require('express'),
       User = models.User,
       Ranking = models.Ranking,
       Team = models.Team,
+      moment = require("moment"),
       router = express.Router();
 
 let ranking = [];
-let teams = [];
+let allTeams = [];
 
 router.use(bodyParser.urlencoded({
     extended: false
@@ -27,29 +28,47 @@ const isAuthenticated = function (req, res, next) {
 };
 
 const getTeams = function(req, res, next) {
-  Team.findAll()
+  Team.findAll({
+    order: ['teamName'],
+  })
     .then(function(teams) {
-      teams = teams;
+      allTeams = teams;
       next();
     });
 }
 
 router.get("/", isAuthenticated, getTeams, function(req, res) {
-  Ranking.findAll()
+  Ranking.findAll({
+    where: {
+      week: 2
+    },
+    include: {
+      model: User,
+      as: "User"
+    }
+  })
     .then(function(rankings) {
       let ranks = [];
 
       for (let i = 0; i < rankings.length; i++) {
-        let rank = rankings[i].getRankingOrder(Team);
+        rankings[i].getRankingOrder(Team).then(function(data) {
+          let obj = {
+            id: rankings[i].id,
+            creator: rankings[i].User.name,
+            week: rankings[i].week,
+            rankingOrder: data,
+            timeCreated: moment(rankings[i].createdAt).fromNow()
 
-        ranks.push(rank);
+          };
+          console.log(obj);
+          ranks.push(obj);
+          if (i === rankings.length - 1) {
+            res.render("rankings", {rankingList: ranks, teams: allTeams, messages: res.locals.getMessages()});
+          }
+        });
       }
-
-      console.log(ranks);
-      res.render("rankings", {rankings: ranks, teams: teams, messages: res.locals.getMessages()});
     })
     .catch(function(err) {
-      console.log(err);
       req.flash('error', 'Error retrieving rankings. Please try again.')
       res.render("rankings", {messages: res.locals.getMessages()});
     });

@@ -1,33 +1,33 @@
-<nav class="navbar navbar-toggleable-md navbar-dark bg-faded">
+<nav class="navbar navbar-inverse bg-inverse">
   <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="/">Navbar</a>
+  <a class="navbar-brand" href="/">Team Rankings 2017</a>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-item" href="/teams/">View Teams</a>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/teams/">View Teams</a>
       </li>
       <li class="nav-item">
-        <a class="nav-item" href="/ranks/">View Rankings</a>
+        <a class="nav-link" href="/ranks/">View Rankings</a>
       </li>
       <li class="nav-item">
-        <a class="nav-item" href="/logout/">Logout</a>
+        <a class="nav-link" href="/logout/">Logout</a>
       </li>
     </ul>
   </div>
 </nav>
-<div class="container">
+<div class="container pb-5">
   <h2>Teams</h2>
-  <p>Simply click your team to claim them for youself. WARNING: ALL YOU HAVE TO DO IS CLICK THE TEAM. BE CAREFUL NOT TO PICK THE WRONG TEAM!</p>
+  <p>Simply click your team to claim them for yourself. WARNING: ALL YOU HAVE TO DO IS CLICK THE TEAM. BE CAREFUL NOT TO PICK THE WRONG TEAM!</p>
   {{#messages.error}}
   <div class="alert alert-danger" role="alert">
     {{.}}
   </div>
   {{/messages.error}}
   <div class="team-container">
-    <ul class="list-group d-flex flex-wrap flex-row">
+    <ul class="list-group d-flex flex-wrap flex-row pb-5">
       {{#teams}}
       {{#User}}
       <li href="/teams/{{id}}" class="list-group-item list-group-item-action">

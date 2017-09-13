@@ -24,6 +24,7 @@ const isAuthenticated = function (req, res, next) {
 
 router.get("/", isAuthenticated, function(req, res) {
   Team.findAll({
+    order: ['teamName'],
     include: {
       model: User,
       as: "User"
@@ -65,7 +66,6 @@ router.get("/:teamId/", isAuthenticated, function(req, res) {
         req.flash('error', 'Error marking claimed on owner.')
         res.redirect("/teams/");
       })
-      res.redirect("/teams/");
     })
     .catch(function(err) {
       req.flash('error', 'Error updating team owner.')

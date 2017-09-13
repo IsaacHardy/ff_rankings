@@ -7,17 +7,26 @@ module.exports = function(sequelize, DataTypes) {
   }, {});
 
   Ranking.prototype.getRankingOrder = function(Team){
-    Team.findAll({
+    return Team.findAll({
       where: {
         id: { $in: this.get('rankingOrder') }
       },
-      attributes: ['teamName']
+      attributes: ['teamName'],
+      order: sequelize.literal('(' + this.get('rankingOrder').map(function(id) {
+        return '"Team"."id" = \'' + id + '\'';
+      }).join(', ') + ') DESC')
     }).then(function(rankingOrder) {
+
       let ranks = [];
 
       for (let i = 0; i < rankingOrder.length; i++) {
-        ranks.push(rankingOrder[i].teamName);
+        let obj = {
+          index: i + 1,
+          teamName: rankingOrder[i].teamName
+        }
+        ranks.push(obj);
       }
+
       return ranks;
     });
   };
