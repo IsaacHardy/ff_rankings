@@ -10,6 +10,7 @@ const express = require('express'),
       router = express.Router();
 
 let ranking = [];
+let teams = [];
 
 router.use(bodyParser.urlencoded({
     extended: false
@@ -25,23 +26,30 @@ const isAuthenticated = function (req, res, next) {
   res.redirect('/login')
 };
 
-router.get("/", isAuthenticated, function(req, res) {
+const getTeams = function(req, res, next) {
+  Team.findAll()
+    .then(function(teams) {
+      teams = teams;
+      next();
+    });
+}
+
+router.get("/", isAuthenticated, getTeams, function(req, res) {
   Ranking.findAll()
     .then(function(rankings) {
-      console.log("RANKINGS: ", rankings);
-      res.render("rankings", {rankings: rankings, messages: res.locals.getMessages()})
-      // Team.findAll({
-      //
-      // })
-      //   .then(function(teams) {
-      //     res.render("rankings", {rankings: rankings, teams: teams});
-      //   })
-      //   .catch(function(err) {
-      //     req.flash('error', 'Error retrieving rankings. Please try again.')
-      //     res.render("rankings");
-      //   })
+      let ranks = [];
+
+      for (let i = 0; i < rankings.length; i++) {
+        let rank = rankings[i].getRankingOrder(Team);
+
+        ranks.push(rank);
+      }
+
+      console.log(ranks);
+      res.render("rankings", {rankings: ranks, teams: teams, messages: res.locals.getMessages()});
     })
     .catch(function(err) {
+      console.log(err);
       req.flash('error', 'Error retrieving rankings. Please try again.')
       res.render("rankings", {messages: res.locals.getMessages()});
     });
@@ -74,6 +82,7 @@ router.post("/", isAuthenticated, parseRanks, function(req, res) {
     week: 2
   })
   .then(function(rank) {
+    console.log(rank);
     res.redirect("/ranks/");
   })
   .catch(function(err) {
