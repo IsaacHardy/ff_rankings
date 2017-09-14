@@ -31,7 +31,7 @@ const isAuthenticated = function (req, res, next) {
 
 const getTeams = function(req, res, next) {
   Team.findAll({
-    order: ['teamName'],
+    order: ['teamName']
   })
     .then(function(teams) {
       allTeams = teams;
@@ -60,7 +60,6 @@ router.get("/", isAuthenticated, getTeams, function(req, res) {
               week: rankings[i].week,
               rankingOrder: data,
               timeCreated: moment(rankings[i].createdAt).fromNow()
-
             };
 
             ranks.push(obj);
