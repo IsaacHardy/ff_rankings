@@ -99,7 +99,27 @@ const parseRanks = function(req, res, next) {
   next();
 };
 
-router.post("/", isAuthenticated, parseRanks, function(req, res) {
+const checkDupeRanks = function(req, res, next) {
+  Ranking.find({
+    where: {
+      week: currentWeek,
+      creatorId: req.user.id
+    }
+  })
+  .then(function(dupedRanking) {
+    if (dupedRanking) {
+      req.flash('error', `You cannot submit more than one ranking per week.`)
+      return res.redirect("/ranks/")
+    }
+    next();
+  })
+  .catch(function(err) {
+    req.flash('error', `Error checking previous rankings. Contact Isaac.`)
+    res.redirect("/ranks/")
+  });
+};
+
+router.post("/", isAuthenticated, parseRanks, checkDupeRanks, function(req, res) {
   let weekKey = "week" + currentWeek;
 
   Ranking.create({
@@ -115,7 +135,6 @@ router.post("/", isAuthenticated, parseRanks, function(req, res) {
           }
         })
         .then(function(score) {
-          console.log("SCORE: ", score);
           let obj = {
             [weekKey]: score[weekKey] + i
           };
