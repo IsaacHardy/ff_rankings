@@ -17,6 +17,11 @@
       {{.}}
     </div>
     {{/messages.success}}
+    {{#messages.notify}}
+    <div class="alert alert-warning" role="alert">
+      {{.}}
+    </div>
+    {{/messages.notify}}
     <div id="form-container">
       <form action="/login/" method="post">
         <div class="form-group">

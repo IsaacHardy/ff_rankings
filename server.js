@@ -72,6 +72,11 @@ app.use("/", routes);
 app.use("/ranks/", rankings);
 app.use("/teams/", teams);
 
+app.get("*", function(req, res) {
+  req.flash('notify', 'Page not found. Redirected to the login page.')
+  res.status(404).redirect("/login/");
+});
+
 if (require.main === module) {
   app.listen(app.get('port'), function() {
     console.log('Node app is running on port', app.get('port'));
