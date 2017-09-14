@@ -69,7 +69,7 @@ const generateWeeklyTotal = function(req, res, next) {
     include: [{model: Team, as: "Team"}]
   })
   .then(function(scores) {
-
+    weeklyTotal = [];
     scores.forEach(function(score, index) {
       let obj = {
         index: index + 1,
@@ -100,7 +100,6 @@ router.get("/admin/user/:userId", function(req, res) {
 });
 
 router.get("/", isAuthenticated, getRankings, generateWeeklyTotal, function(req, res) {
-
   res.render("dashboard", {user: req.user, weeklyTotal: weeklyTotal, week: currentWeek});
 });
 
