@@ -95,7 +95,6 @@ router.get("/admin/user/:userId", function(req, res) {
 });
 
 router.get("/", isAuthenticated, getRankings, generateWeeklyTotal, function(req, res) {
-  console.log("WEEKLYTOTAL: ", weeklyTotal);
   res.render("dashboard", {user: req.user, weeklyTotal: weeklyTotal, week: currentWeek});
 });
 

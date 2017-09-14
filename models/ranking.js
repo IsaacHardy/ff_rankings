@@ -31,12 +31,6 @@ module.exports = function(sequelize, DataTypes) {
     });
   };
 
-  // Ranking.prototype.setRankingOrder = function(ids){
-  //   return this.setDataValues('rankingOrder', ids).save().then(self => {
-  //     return self;
-  //   });
-  // };
-
   Ranking.associate = function(models) {
     Ranking.belongsTo(models.User, {
       as: "User",
