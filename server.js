@@ -1,7 +1,7 @@
 const express         = require("express"),
       mustacheExpress = require("mustache-express"),
       path            = require("path"),
-      // morgan          = require("morgan"),
+      morgan          = require("morgan"),
       passport        = require("passport"),
       bcrypt          = require("bcryptjs"),
       User            = require("./models").User,
@@ -26,7 +26,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "mustache");
 app.set("layout", "layout");
 
-// app.use(morgan('dev'));
+app.use(morgan('dev'));
 
 moment.locale('en', {
   week : {
