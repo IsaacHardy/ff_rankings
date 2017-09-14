@@ -69,12 +69,17 @@ const generateWeeklyTotal = function(req, res, next) {
     include: [{model: Team, as: "Team"}]
   })
   .then(function(scores) {
-    weeklyTotal = scores;
-    console.log("SCORES: ", weeklyTotal);
+
+    scores.forEach(function(score, index) {
+      let obj = {
+        index: index + 1,
+        Team: score.Team
+      };
+      weeklyTotal.push(obj);
+    });
     next();
   })
   .catch(function(err) {
-    console.log("ERROR: ", err);
     next();
   });
 };
@@ -95,6 +100,7 @@ router.get("/admin/user/:userId", function(req, res) {
 });
 
 router.get("/", isAuthenticated, getRankings, generateWeeklyTotal, function(req, res) {
+
   res.render("dashboard", {user: req.user, weeklyTotal: weeklyTotal, week: currentWeek});
 });
 
