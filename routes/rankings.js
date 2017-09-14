@@ -13,8 +13,14 @@ const express = require('express'),
 let ranking = [];
 let allTeams = [];
 
+moment.locale('en', {
+  week : {
+    dow : 2
+  }
+});
+
 router.use(bodyParser.urlencoded({
-    extended: false
+  extended: false
 }));
 
 router.use(expressValidator());
@@ -40,7 +46,7 @@ const getTeams = function(req, res, next) {
 router.get("/", isAuthenticated, getTeams, function(req, res) {
   Ranking.findAll({
     where: {
-      week: 2
+      week: moment().week() - 35
     },
     include: {
       model: User,
@@ -60,10 +66,10 @@ router.get("/", isAuthenticated, getTeams, function(req, res) {
             timeCreated: moment(rankings[i].createdAt).fromNow()
 
           };
-          console.log(obj);
+
           ranks.push(obj);
           if (i === rankings.length - 1) {
-            res.render("rankings", {rankingList: ranks, teams: allTeams, messages: res.locals.getMessages()});
+            res.render("rankings", {week: moment().week() - 35, rankingList: ranks, teams: allTeams, messages: res.locals.getMessages()});
           }
         });
       }
@@ -98,10 +104,10 @@ router.post("/", isAuthenticated, parseRanks, function(req, res) {
   Ranking.create({
     rankingOrder: ranking,
     creatorId: req.user.id,
-    week: 2
+    week: moment().week() - 35
   })
   .then(function(rank) {
-    console.log(rank);
+    req.flash('success', `Successfully created WEEK ${moment().week() - 35} ranking.`)
     res.redirect("/ranks/");
   })
   .catch(function(err) {

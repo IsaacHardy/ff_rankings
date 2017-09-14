@@ -86,6 +86,7 @@ router.post('/signup/', function(req, res) {
     models.User.create(newUser)
       .then(function() {
         req.session.messages = []
+        req.flash('success', 'Successfully created new user!')
         res.redirect('/')
       }).catch(function(error) {
         req.flash('error', 'Please choose a different username.')

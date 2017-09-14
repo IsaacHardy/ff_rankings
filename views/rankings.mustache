@@ -19,11 +19,18 @@
   </div>
 </nav>
 <div class="container">
+  <h2>Welcome to Week {{week}} Rankings!</h2>
+  <p>To view all week rankings, click <a href="/">HERE</a>!</p>
   {{#messages.error}}
   <div class="alert alert-danger" role="alert">
     {{.}}
   </div>
   {{/messages.error}}
+  {{#messages.success}}
+  <div class="alert alert-success" role="alert">
+    {{.}}
+  </div>
+  {{/messages.success}}
   <div id="rankings-layout">
     <div class="card-deck">
       {{#rankingList}}
