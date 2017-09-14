@@ -7,12 +7,15 @@ const express = require('express'),
       flash = require('express-flash-messages'),
       User = models.User,
       Ranking = models.Ranking,
+      Score = models.Score,
+      Team = models.Team,
       moment = require("moment"),
       currentWeek = moment().week() - 35,
       bcrypt = require("bcryptjs"),
       router = express.Router();
 
 let rankings = [];
+let weeklyTotal = [];
 
 router.use(bodyParser.urlencoded({
     extended: false
@@ -59,9 +62,21 @@ const getRankings = function(req, res, next) {
     });
 };
 
-const generateWeeklyStatistics = function(req, res, next) {
-
-  next();
+const generateWeeklyTotal = function(req, res, next) {
+  let week = 'week' + currentWeek;
+  Score.findAll({
+    order: [week],
+    include: [{model: Team, as: "Team"}]
+  })
+  .then(function(scores) {
+    weeklyTotal = scores;
+    console.log("SCORES: ", weeklyTotal);
+    next();
+  })
+  .catch(function(err) {
+    console.log("ERROR: ", err);
+    next();
+  });
 };
 
 router.get("/admin/", function(req, res) {
@@ -79,8 +94,9 @@ router.get("/admin/user/:userId", function(req, res) {
   res.redirect('/admin/')
 });
 
-router.get("/", isAuthenticated, getRankings, generateWeeklyStatistics, function(req, res) {
-  res.render("dashboard", {user: req.user});
+router.get("/", isAuthenticated, getRankings, generateWeeklyTotal, function(req, res) {
+  console.log("WEEKLYTOTAL: ", weeklyTotal);
+  res.render("dashboard", {user: req.user, weeklyTotal: weeklyTotal, week: currentWeek});
 });
 
 router.get('/login/', function(req, res) {

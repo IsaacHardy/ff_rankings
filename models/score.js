@@ -22,7 +22,7 @@ module.exports = function(sequelize, DataTypes) {
 
   Score.associate = function(models) {
       Score.belongsTo(models.Team, {
-        as: "Score",
+        as: "Team",
         foreignKey: "teamId"
       })
   };

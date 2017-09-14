@@ -25,4 +25,33 @@
   </h1>
   <p>More statistics are coming to this page soon!</p>
   {{/user}}
+
+  <div class="d-flex flex-wrap">
+      <div class="card text-left m-2">
+        <h4 class="card-title  p-2">Top Weekly Rankings</h4>
+        <h6 class="card-subtitle mb-1 text-muted pl-2">Week {{week}}</h6>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Team</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{#weeklyTotal}}
+            <tr>
+                <th scope="row">{{index}}</th>
+                <td>{{Team.teamName}}</td>
+            </tr>
+            {{/weeklyTotal}}
+            {{^weeklyTotal}}
+            <tr>
+                <th scope="row">N.A.</th>
+                <td>No rankings have been submitted.</td>
+            </tr>
+            {{/weeklyTotal}}
+          </tbody>
+        </table>
+      </div>
+  </div>
 </div>
