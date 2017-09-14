@@ -65,14 +65,17 @@ const generateWeeklyStatistics = function(req, res, next) {
 };
 
 router.get("/admin/", function(req, res) {
+  // TODO: Bring in teams/owners and display them on page
   res.render("admin");
 });
 
-router.get("/admin/weekly-average", function(req, res) {
+router.get("/admin/average/:teamId", function(req, res) {
+  // TODO: clear weekly-average attribute on all teams
   res.redirect('/admin/')
 });
 
-router.get("/admin/user/:id", function(req, res) {
+router.get("/admin/user/:userId", function(req, res) {
+  // TODO: remove owner from team
   res.redirect('/admin/')
 });
 
