@@ -60,9 +60,21 @@ const getRankings = function(req, res, next) {
 };
 
 const generateWeeklyStatistics = function(req, res, next) {
-  
+
   next();
 };
+
+router.get("/admin/", function(req, res) {
+  res.render("admin");
+});
+
+router.get("/admin/weekly-average", function(req, res) {
+  res.redirect('/admin/')
+});
+
+router.get("/admin/user/:id", function(req, res) {
+  res.redirect('/admin/')
+});
 
 router.get("/", isAuthenticated, getRankings, generateWeeklyStatistics, function(req, res) {
   res.render("dashboard", {user: req.user});
