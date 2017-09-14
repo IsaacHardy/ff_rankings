@@ -8,16 +8,17 @@ const express = require('express'),
       Ranking = models.Ranking,
       Team = models.Team,
       moment = require("moment"),
+      currentWeek = moment().week() - 35,
       router = express.Router();
 
 let ranking = [];
 let allTeams = [];
 
-moment.locale('en', {
-  week : {
-    dow : 2
-  }
-});
+// moment.locale('en', {
+//   week : {
+//     dow : 2
+//   }
+// });
 
 router.use(bodyParser.urlencoded({
   extended: false
@@ -46,7 +47,7 @@ const getTeams = function(req, res, next) {
 router.get("/", isAuthenticated, getTeams, function(req, res) {
   Ranking.findAll({
     where: {
-      week: moment().week() - 35
+      week: currentWeek
     },
     include: {
       model: User,
@@ -69,7 +70,7 @@ router.get("/", isAuthenticated, getTeams, function(req, res) {
 
           ranks.push(obj);
           if (i === rankings.length - 1) {
-            res.render("rankings", {week: moment().week() - 35, rankingList: ranks, teams: allTeams, messages: res.locals.getMessages()});
+            res.render("rankings", {week: currentWeek, rankingList: ranks, teams: allTeams, messages: res.locals.getMessages()});
           }
         });
       }
@@ -104,10 +105,11 @@ router.post("/", isAuthenticated, parseRanks, function(req, res) {
   Ranking.create({
     rankingOrder: ranking,
     creatorId: req.user.id,
-    week: moment().week() - 35
+    week: currentWeek
   })
   .then(function(rank) {
-    req.flash('success', `Successfully created WEEK ${moment().week() - 35} ranking.`)
+    // TODO: create TEAM.update call to add to weeklyAverage
+    req.flash('success', `Successfully created WEEK ${currentWeek} ranking.`)
     res.redirect("/ranks/");
   })
   .catch(function(err) {

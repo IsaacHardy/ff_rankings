@@ -19,6 +19,9 @@ module.exports = {
           key: "id"
         }
       },
+      weeklyAverage: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

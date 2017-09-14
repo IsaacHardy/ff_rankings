@@ -8,6 +8,7 @@ const express         = require("express"),
       LocalStrategy   = require('passport-local').Strategy,
       routes          = require("./routes/index.js"),
       rankings        = require("./routes/rankings.js"),
+      moment          = require("moment"),
       teams           = require("./routes/teams.js");
 
 // Initialze Express App
@@ -26,6 +27,12 @@ app.set("view engine", "mustache");
 app.set("layout", "layout");
 
 app.use(morgan('dev'));
+
+moment.locale('en', {
+  week : {
+    dow : 2
+  }
+});
 
 const authenticateUser = function(username, password, done) {
   User.findOne({

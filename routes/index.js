@@ -6,8 +6,13 @@ const express = require('express'),
       models = require("../models"),
       flash = require('express-flash-messages'),
       User = models.User,
+      Ranking = models.Ranking,
+      moment = require("moment"),
+      currentWeek = moment().week() - 35,
       bcrypt = require("bcryptjs"),
       router = express.Router();
+
+let rankings = [];
 
 router.use(bodyParser.urlencoded({
     extended: false
@@ -38,7 +43,28 @@ router.use(function (req, res, next) {
     next();
 });
 
-router.get("/", isAuthenticated, function(req, res) {
+const getRankings = function(req, res, next) {
+  Ranking.findAll({
+    where: {
+      week: currentWeek
+    }
+  })
+    .then(function(data) {
+      rankings = data;
+      next();
+    })
+    .catch(function(err) {
+      req.flash('error', 'Error retrieving statistics.')
+      res.redirect('/login')
+    });
+};
+
+const generateWeeklyStatistics = function(req, res, next) {
+  
+  next();
+};
+
+router.get("/", isAuthenticated, getRankings, generateWeeklyStatistics, function(req, res) {
   res.render("dashboard", {user: req.user});
 });
 
