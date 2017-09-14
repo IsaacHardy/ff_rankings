@@ -19,10 +19,6 @@ module.exports = {
           key: "id"
         }
       },
-      // TODO: Turn this into an object with each week key to values
-      // weeklyAverage: {
-      //   type: Sequelize.INTEGER
-      // },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

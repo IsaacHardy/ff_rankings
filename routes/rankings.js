@@ -7,18 +7,13 @@ const express = require('express'),
       User = models.User,
       Ranking = models.Ranking,
       Team = models.Team,
+      Score = models.Score,
       moment = require("moment"),
       currentWeek = moment().week() - 35,
       router = express.Router();
 
 let ranking = [];
 let allTeams = [];
-
-// moment.locale('en', {
-//   week : {
-//     dow : 2
-//   }
-// });
 
 router.use(bodyParser.urlencoded({
   extended: false
@@ -56,23 +51,26 @@ router.get("/", isAuthenticated, getTeams, function(req, res) {
   })
     .then(function(rankings) {
       let ranks = [];
+      if (rankings.length) {
+        for (let i = 0; i < rankings.length; i++) {
+          rankings[i].getRankingOrder(Team).then(function(data) {
+            let obj = {
+              id: rankings[i].id,
+              creator: rankings[i].User.name,
+              week: rankings[i].week,
+              rankingOrder: data,
+              timeCreated: moment(rankings[i].createdAt).fromNow()
 
-      for (let i = 0; i < rankings.length; i++) {
-        rankings[i].getRankingOrder(Team).then(function(data) {
-          let obj = {
-            id: rankings[i].id,
-            creator: rankings[i].User.name,
-            week: rankings[i].week,
-            rankingOrder: data,
-            timeCreated: moment(rankings[i].createdAt).fromNow()
+            };
 
-          };
-
-          ranks.push(obj);
-          if (i === rankings.length - 1) {
-            res.render("rankings", {week: currentWeek, rankingList: ranks, teams: allTeams, messages: res.locals.getMessages()});
-          }
-        });
+            ranks.push(obj);
+            if (i === rankings.length - 1) {
+              res.render("rankings", {week: currentWeek, rankingList: ranks, teams: allTeams, messages: res.locals.getMessages()});
+            }
+          });
+        }
+      } else {
+        res.render("rankings", {week:currentWeek, rankingList: [], teams: allTeams, messages: res.locals.getMessages()})
       }
     })
     .catch(function(err) {
@@ -102,20 +100,48 @@ const parseRanks = function(req, res, next) {
 };
 
 router.post("/", isAuthenticated, parseRanks, function(req, res) {
+  let weekKey = "week" + currentWeek;
+
   Ranking.create({
     rankingOrder: ranking,
     creatorId: req.user.id,
     week: currentWeek
   })
   .then(function(rank) {
-    // TODO: create TEAM.update call to add to weeklyAverage
+      for (let i = 0; i < ranking.length; i++) {
+        Score.find({
+          where: {
+            teamId: ranking[i]
+          }
+        })
+        .then(function(score) {
+          console.log("SCORE: ", score);
+          let obj = {
+            [weekKey]: score[weekKey] + i
+          };
+          Score.update(obj, {
+            where: {
+              teamId: ranking[i]
+            }
+          })
+          .then(function(data) {
+
+          })
+          .catch(function(err) {
+            req.flash('error', `Error saving ranking data. Please contact Isaac.`)
+          });
+        })
+        .catch(function(err) {
+          req.flash('error', `Error finding Score for team. Please contact Isaac.`)
+        });
+    }
     req.flash('success', `Successfully created WEEK ${currentWeek} ranking.`)
-    res.redirect("/ranks/");
+    res.redirect('/ranks/')
   })
   .catch(function(err) {
     req.flash('error', 'Error creating ranking. Please try again.')
     res.redirect("/ranks/");
-  })
+  });
 });
 
 module.exports = router;
