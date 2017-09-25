@@ -4,10 +4,14 @@ A barebones Node.js app using [Express 4](http://expressjs.com/).
 
 ## Running Locally
 
-Make sure you have [Node.js](http://nodejs.org/) and the [Heroku CLI](https://cli.heroku.com/) installed.
+Make sure you have [Node.js](http://nodejs.org/) and the [Heroku CLI](https://cli.heroku.com/) installed. You will also need Sequelize CLI and a postgres server up and running.
+
+After creating your PSQL database, copy its name into the `config/config.json` file as well as your username.
 
 ```sh
 $ npm install
+$ sequelize db:migrate
+$ sequelize db:seed:all
 $ npm start
 ```
 
