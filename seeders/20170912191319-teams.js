@@ -4,85 +4,85 @@ module.exports = {
   up: function (queryInterface, Sequelize) {
     return queryInterface.bulkInsert('Teams', [
         {
-          teamName: "Blaino's Little Finger",
+          teamName: "Team 1",
           ownerId: null,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          teamName: "Dead Cometh",
+          teamName: "Team 2",
           ownerId: null,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          teamName: "I CAM IN MY PANTS",
+          teamName: "Team 3",
           ownerId: null,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          teamName: "Suck on my Hairy Ball Zack",
+          teamName: "Team 4",
           ownerId: null,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          teamName: "Team Shepherd",
+          teamName: "Team 5",
           ownerId: null,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          teamName: "Laughing Llamas",
+          teamName: "Team 6",
           ownerId: null,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          teamName: "Feed Moncrief!",
+          teamName: "Team 7",
           ownerId: null,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          teamName: "Blazing Bryants",
+          teamName: "Team 8",
           ownerId: null,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          teamName: "In Rod We Trust",
+          teamName: "Team 9",
           ownerId: null,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          teamName: "Cali Fournettecation",
+          teamName: "Team 10",
           ownerId: null,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          teamName: "Get your Zeke on",
+          teamName: "Team 11",
           ownerId: null,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          teamName: "Zeke-a Virus",
+          teamName: "Team 12",
           ownerId: null,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          teamName: "Weak in the Knees",
+          teamName: "Team 13",
           ownerId: null,
           createdAt: new Date(),
           updatedAt: new Date()
         },
         {
-          teamName: "Monster Meats",
+          teamName: "Team 14",
           ownerId: null,
           createdAt: new Date(),
           updatedAt: new Date()
